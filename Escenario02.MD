@@ -59,11 +59,31 @@ AL igual que en el caso anterior, se destruyen las maquinas en ejecución:
 
 ![Vagrant Status](/images/01-vagrantdestroy.PNG)
 
+# 02-Ansible-Provision
+
+Para esta ultima parte, se plantea un escenario que parte de los dos anteriores, pero en este caso se requiere que las máquinas creadas sean: Un servidor web y un servidor database, para esto se debe utilizar aprovisionamiento sobre los mismas, y en este caso se realiza mediante Ansible.
+
+Esta configuración en VagrantFile, tambien con sistema operativo centos7, incluye además asignación de diferentes puertos ssh, y lo más importante, el aprovisionamiento con ansible haciendo llamado a archivos adicionales: hosts,y un playbook llamado servers.yml:
 
 ![Vagrant Status](/images/02-vagrantfilepartea.PNG)
 ![Vagrant Status](/images/02-vagrantfileparteb.PNG)
+
+Este es el archivo hosts, donde se definen las direcciones ip que Ansible debe identificar para cada servidor:
+
 ![Vagrant Status](/images/02-hosts.PNG)
-![Vagrant Status](/images/02-ansiblecfg.PNG)
-![Vagrant Status](/images/02-playbookpython.PNG)
+
+Este es el script especificado en el VagrantFile para aprovisionar con ansible:
+
 ![Vagrant Status](/images/02-playbookservers.PNG)
+
+Las maquinas son creadas con vagran up y se verifica que se estan ejecutando normalmente:
+
 ![Vagrant Status](/images/02-vagrantstatusprendidas.PNG)
+
+## Dificultades encontradas en el proceso
+
+A lo largo del desarrollo de este taller se presentaron algunos problemas, principalmente por el hecho de ser la primera vez que se utilizan estas herramientas para La creación y aprovisionamiento de máquinas virtuales. Aunque se partió de un repositorio que ya contenía gran parte de la implementación, el aprovisionamiento con ansible no funcionó correctamente y se debió proceder a entender cómo funcionaba la ejecución del archivo yml que ejecuta esta tarea para corregir algunas partes del código. La primera fue definir las máquinas en el archivo hosts como ansible_host, y la segunda eliminar una acción que hacia que se intentara hacer el aprovisionamiento en paralelo a la creación de las máquinas, pues ansible estaba intentando aprovisionar la segunda máquina antes de ser creada.
+
+## Conclusiones y reflexión
+
+El uso de herramientas que permiten automatizar los procesos de creación de infraestuctura mediante ejecución de código resulta muy útil hoy en día, pues se realiza un despliegue mucho más rápido, además de que permite su condiguración y administración y utilizar solo los recursos de hardware necesarios para implementar una solución. En este taller se pudo tener un acercamiento a esta tecnología, y empezar a comprender la forma en que se utilizan estas herramientas para cumplir estas funciones dentro del desarrollo y despliegue de una solución de TI.
